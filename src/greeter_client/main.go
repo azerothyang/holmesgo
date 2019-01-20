@@ -21,7 +21,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"time"
 
 	"google.golang.org/grpc"
@@ -40,18 +39,18 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := user.NewGreeterClient(conn)
+	c := user.NewPropertyClient(conn)
 
 	// Contact the server and print out its response.
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
-	}
+	//name := defaultName
+	//if len(os.Args) > 1 {
+	//	name = os.Args[1]
+	//}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHello(ctx, &user.HelloRequest{Name: name})
+	r, err := c.GetAge(ctx, &user.Empty{})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.Message)
+	log.Printf("Age: %d", r.Age)
 }

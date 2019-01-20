@@ -1,0 +1,31 @@
+server:
+  host:
+  port: 1130
+database:
+  mysql:
+    master:
+      host: 192.168.1.189
+      port: 3306
+      user: dragon
+      password: Dragon1!
+      database: dragon
+      charset: utf8
+      timeout: 3s  #connect timeout time
+      maxIdle: 20  #maxIdle connections, db will at least serve 20 idle connections; if you set 0, that means no limit。
+      maxConn: 40  #maxConn connections, db will have 40 connections limit; if you set 0, that means no limit。
+    slave:
+      host: 192.168.1.189
+      port: 3306
+      user: dragon
+      password: Dragon1!
+      database: dragon
+      charset: utf8
+      timeout: 3s
+      maxIdle: 20  #maxIdle connections, db will at least serve 20 idle connections; if you set 0, that means no limit。
+      maxConn: 40  #maxConn connections, db will have 40 connections limit; if you set 0, that means no limit。
+  redis:
+    host: 192.168.1.189
+    port: 6379
+    auth:
+    timeout: 100 #redis dial timeout per millisecond. int type
+    db: 0

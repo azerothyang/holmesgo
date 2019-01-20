@@ -21,37 +21,22 @@
 package main
 
 import (
-	"context"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
-	"log"
-	"net"
-	"user"
+	"holmes"
+	"holmes/conf"
+	"holmes/dredis"
+	"model"
 )
-
-const (
-	port = ":1130"
-)
-
-// server is used to implement helloworld.GreeterServer.
-type server struct{}
-
-// SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *user.HelloRequest) (*user.HelloReply, error) {
-	log.Printf("Received: %v", in.Name)
-	return &user.HelloReply{Message: "Hello " + in.Name}, nil
-}
 
 func main() {
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
-	user.RegisterGreeterServer(s, &server{})
-	// Register reflection service on gRPC server.
-	reflection.Register(s)
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	// init conf
+	conf.InitConf()
+
+	// init db
+	model.InitDB()
+
+	// init redis
+	dredis.InitRedis()
+
+	// start run like fly
+	holmes.Fly()
 }
